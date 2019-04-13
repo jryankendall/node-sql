@@ -26,6 +26,8 @@ var connection = mysql.createConnection({
   }
 );
 
+
+//Returns the index of an object in array arr with key product_name set to val
 function getIndex(arr, val) {
     var index = 0;
     for (var i in arr) {
@@ -34,6 +36,11 @@ function getIndex(arr, val) {
             return index;
         }
     }
+}
+
+//forgot why i made this function
+function execFuncOnVari(vari, func) {
+    return func(vari);
 }
 
 connection.connect(function(err) {
@@ -217,6 +224,34 @@ function plusInventory(productObject) {
             var queryObject = new QueryBuild(queryString, inArray);
             return makeQuery("addinv", queryObject);
         }
+    })
+
+}
+
+function addNewProduct() {
+    inquirer.prompt([
+        {
+            name: "prodName",
+            message: "Enter product name: ",
+            type: "input"
+        },
+        {
+            name: "prodDept",
+            message: "Enter product department: ",
+            type: "input"
+        },
+        {
+            name: "prodPrice",
+            message: "Enter product price, in the form of dollars.cents (##.##): ",
+            type: "number"
+        },
+        {
+            name: "prodStock",
+            message: "Enter initial product stock, as a positive integer: ",
+            type: "number"
+        }
+    ]).then(function(ans) {
+        
     })
 
 }

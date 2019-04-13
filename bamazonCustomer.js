@@ -32,6 +32,7 @@ connection.connect(function(err) {
     launchStore();
 })
 
+//Returns the index of an object in array arr with key name set to val
 function getIndex(arr, val) {
     var index = 0;
     for (var i in arr) {
