@@ -163,6 +163,10 @@ function makeQuery(queryType, qObject) {
     } //end of addinv If
 
     if (queryType == "newproduct") {
+        connection.query(qObject.method, qObject.qArray, function(err, res) {
+            if (err) throw err;
+            console.log("\nNew Product Added. Added " + qObject.qArray[0] + " to department " + qObject.qArray[1] + " priced at $" + qObject.qArray[2] + ", with " + qObject.qArray[3] + " units in stock.");
+        })
 
     } //end of newproduct If
 
@@ -251,6 +255,25 @@ function addNewProduct() {
             type: "number"
         }
     ]).then(function(ans) {
+        var product = ans.prodName;
+        var department = ans.prodDept;
+        var price = parseFloat(ans.prodPrice);
+        price = price.toFixed(2);
+        var stock = parseInt(ans.prodStock);
+
+        if (isNaN(price) || price <= 0 || stock < 0 || isNaN(stock)) {
+            console.log("Invalid price or stock entry detected. Ending process.")
+            return launchFunc(closeConnection);
+        }
+        else
+        {
+            var queryMethod = "INSERT INTO products(product_name,department_name,price,stock_quantity) VALUES(?,?,?,?)";
+            var queryArray = [product, department, price, stock];
+            var wholeQuery = new QueryBuild(queryMethod, queryArray);
+            
+            return makeQuery("newproduct", wholeQuery);
+
+        }
         
     })
 
